@@ -1,0 +1,103 @@
+[gd_scene load_steps=12 format=3 uid="uid://doa7n5qle0oxw"]
+
+[ext_resource type="Script" path="res://addons/shaky_camera_3d/internal/scripts/character_body_3d_script.gd" id="1_87xvp"]
+[ext_resource type="PackedScene" uid="uid://daumxjq7jnjp8" path="res://addons/shaky_camera_3d/shaky_camera_3d.tscn" id="2_jy5hs"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qi3pp"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_pfuju"]
+sky_material = SubResource("ProceduralSkyMaterial_qi3pp")
+
+[sub_resource type="Environment" id="Environment_lufjh"]
+background_mode = 2
+sky = SubResource("Sky_pfuju")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wxmn0"]
+noise_type = 0
+frequency = 0.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_d265m"]
+noise = SubResource("FastNoiseLite_wxmn0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wr4c2"]
+albedo_color = Color(0.552941, 0.423529, 0.513726, 1)
+albedo_texture = SubResource("NoiseTexture2D_d265m")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nwtd3"]
+material = SubResource("StandardMaterial3D_wr4c2")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wvrsc"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i8611"]
+
+[node name="ExampleScene" type="Node3D"]
+metadata/_edit_vertical_guides_ = [-158.0]
+
+[node name="EnvironmentSettings" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="EnvironmentSettings"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="EnvironmentSettings"]
+environment = SubResource("Environment_lufjh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_nwtd3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wvrsc")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 1, 0)
+script = ExtResource("1_87xvp")
+
+[node name="ShakyCamera3D" parent="CharacterBody3D" instance=ExtResource("2_jy5hs")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_i8611")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 216.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Tutorial" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 25
+text = "MOVE WITH \"ui_left\", \"ui_right\", \"ui_up\" and \"ui_down\" KEYS
+CHANGE ANIMATIONS WITH \"ui_accept\"
+SHOW MOUSE WITH \"ui_cancel\""
+
+[node name="CurrentTypeOfShake" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 25
+text = "CURRENT ANIMATION: Run"

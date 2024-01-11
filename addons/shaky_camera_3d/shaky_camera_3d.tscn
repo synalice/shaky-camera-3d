@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://daumxjq7jnjp8"]
+
+[ext_resource type="Script" path="res://addons/shaky_camera_3d/internal/scripts/shaky_camera_3d.gd" id="1_x71h2"]
+[ext_resource type="AnimationLibrary" uid="uid://c1lndi25m4tp4" path="res://addons/shaky_camera_3d/internal/shaky_camera_3d.res" id="2_oxx56"]
+
+[node name="ShakyCamera3D" type="Camera3D"]
+script = ExtResource("1_x71h2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"shaky_camera_3d": ExtResource("2_oxx56")
+}
+speed_scale = 24.0
