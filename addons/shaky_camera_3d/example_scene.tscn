@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://doa7n5qle0oxw"]
+[gd_scene load_steps=13 format=3 uid="uid://doa7n5qle0oxw"]
 
 [ext_resource type="Script" path="res://addons/shaky_camera_3d/internal/scripts/character_body_3d_script.gd" id="1_87xvp"]
 [ext_resource type="PackedScene" uid="uid://daumxjq7jnjp8" path="res://addons/shaky_camera_3d/shaky_camera_3d.tscn" id="2_jy5hs"]
@@ -36,6 +36,8 @@ data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0,
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i8611"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qxn2d"]
+
 [node name="ExampleScene" type="Node3D"]
 metadata/_edit_vertical_guides_ = [-158.0]
 
@@ -61,9 +63,13 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 script = ExtResource("1_87xvp")
 
 [node name="ShakyCamera3D" parent="CharacterBody3D" instance=ExtResource("2_jy5hs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.588369, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_i8611")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_qxn2d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
