@@ -8,7 +8,6 @@ extends Camera3D
 
 
 enum TypesOfShake {
-	NONE,
 	INVESTIGATION,
 	CLOSEUP,
 	WEDDING,
@@ -17,7 +16,11 @@ enum TypesOfShake {
 	OUT_OF_CAR_WINDOW
 }
 
+## Type of shake that will be played.
 @export var type_of_shake: TypesOfShake = TypesOfShake.HANDYCAM_RUN
+
+## Disable the animation.
+@export var disabled: bool = false
 
 @export_group("Animation Effect Multipliers", "multiplier_")
 @export var multiplier_position: float = 1.0
@@ -39,7 +42,6 @@ const FPS = 24.0
 
 ## Names of the animations inside the AnimationPlayer
 const animation_names = {
-	TypesOfShake.NONE: "",
 	TypesOfShake.INVESTIGATION: "shaky_camera_3d/investigation",
 	TypesOfShake.CLOSEUP: "shaky_camera_3d/closeup",
 	TypesOfShake.WEDDING: "shaky_camera_3d/wedding",
@@ -98,18 +100,22 @@ func _set(property, value):
 func _process(_delta):
 	animation_player.current_animation = animation_names[type_of_shake]
 	animation_player.speed_scale = FPS * multiplier_speed
+	animation_player.active = not disabled
 	
 	## To animate camera position (add shake to it) we take it's
-	## starting (initial) position (and rotation) and add little offsets
+	## starting position (and rotation) and add little offsets
 	## to it every frame.
 	##
 	## This makes it so that position of the camera doesn't equal the offset
 	## itself which would have caused it to shake around a (0, 0, 0)
 	## coordinate instead of where we want the camera to be.
 	
+	if not disabled:
+		## Add shake from the animation.
+		last_known_position_offsets = position_offsets * multiplier_position
+		last_known_rotation_offsets = rotation_offsets * multiplier_rotation
+	
 	use_set_method_allowed = false
-	last_known_position_offsets = position_offsets * multiplier_position
-	last_known_rotation_offsets = rotation_offsets * multiplier_rotation
 	position = true_position + last_known_position_offsets
 	rotation = true_rotation + last_known_rotation_offsets
 	use_set_method_allowed = true
