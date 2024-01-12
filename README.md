@@ -22,6 +22,8 @@ A variation of Godot 4 Camera3D node with shake animations to imitate filming wh
 - **This node extends Camera3D** instead of having it as a child. This means you don't have to go inside the scene to edit camera's properties.
 - **Clean file structure.** Files you don't need to see are hidden in `internal/` folder.
 
+Also, in `python_scripts/` directory you can find a file with a raw motion capture data (`shake_data.py`) and a script (`main.py`) that are is used to generate each animation. You don't actuallly need these for anything, I just thought it would be nice to store them here with everything else.
+
 ## Credits
 
 - Huge thanks to [EatTheFuture/camera_shakify](https://github.com/EatTheFuture/camera_shakify) for providing shake animations, licensed under the CC0 license.
