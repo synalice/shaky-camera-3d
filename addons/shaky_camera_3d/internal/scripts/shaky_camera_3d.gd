@@ -1,4 +1,4 @@
-## A variation of Camera3D node with shake animations to immitate
+## A variation of Camera3D node with shake animations to imitate
 ## filming while in motion.
 
 @icon("icon.svg")

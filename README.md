@@ -8,7 +8,7 @@
     <h1 align="center">ShakyCamera3D</h1> 
 </div>
 
-A variation of Godot 4 Camera3D node with shake animations to immitate filming while in motion.
+A variation of Godot 4 Camera3D node with shake animations to imitate filming while in motion.
 
 ## Usage
 
